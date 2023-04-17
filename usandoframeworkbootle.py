@@ -11,12 +11,6 @@ usuarios_autorizados = [
 ]
 
 
-# @route('/static/<filename>') # rota achar arquivos estaticos
-# @route('/hello/static/<filename>')
-# @route('/static/<filename>')
-# def server_static(filename):
-#     return static_file(filename, root='./views/static')
-
 @route('/static/<filename>')
 def server_static(filename):
     return static_file(filename, root='./views/static')
@@ -35,9 +29,6 @@ def do_login():
 
     try:
 
-        print("request.content_type:", request.content_type)
-        print("headers:", request.get_header("origin"))
-
         username = request.forms.get('username', None)
         password = request.forms.get('password', None)
 
@@ -54,7 +45,9 @@ def do_login():
         for usuario in usuarios_autorizados:
 
             if usuario.get("username") == username and usuario.get("password") == password:
-                usuario_autenticado = usuario
+
+                usuario_autenticado["username"] = usuario["username"]
+                usuario_autenticado["nome"] = usuario["nome"]
 
                 break
 
@@ -63,7 +56,7 @@ def do_login():
 
     finally:
 
-        return template("index") if message is None else f"<p>{message}</p>"
+        return template("index", usuario_autenticado) if message is None else template("erro", message)
 
 
 run(host='localhost', port=8080, debug=True)
