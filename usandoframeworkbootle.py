@@ -27,26 +27,18 @@ def server_static(filename):
 def login():
   return template('login')
 
-# headers = {
-#     'content-type': "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",
-#     'cache-control': "no-cache",
-#     'Postman-Token': "0c381b9f-58c7-47da-91a8-c98670c0e2f9"
-#     }
-
-
-
 
 @post('/login', method='POST')
 def do_login():
-    
+
     message = None
 
     try:
 
+        request.conten_type('Content-Type: text/html; charset=UTF-8')
+
         print("request.content_type:", request.content_type)
         print("headers:", request.get_header("origin"))
-        
-        # request.content_type.encode("iso-8859-1")
 
         username = request.forms.get('username', None)
         password = request.forms.get('password', None)
@@ -58,8 +50,6 @@ def do_login():
         message = ex
 
     else:
-        print("username:", username.encode)
-        print("password:", password)
 
         usuario_autenticado = {}
 
@@ -67,19 +57,13 @@ def do_login():
 
             if usuario.get("username") == username and usuario.get("password") == password:
                 usuario_autenticado = usuario
-                
+
                 break
-        
+
         if usuario_autenticado == {}:
             message = "Login Falhou"
     finally:
-        template("index") if message is not None  else f"<p>{message}</p>"
+        template("index") if message is not None else f"<p>{message}</p>"
 
 
 run(host='localhost', port=8080, debug=True)
-
-
-# navegador.get("http://localhost:8080/login")
-# https://bottlepy.org/docs/dev/tutorial.html#generating-content
-# http://localhost:8080/
-# http://localhost:8080/hello/ola
