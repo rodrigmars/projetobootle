@@ -33,8 +33,6 @@ def do_login():
 
     message = None
 
-    print("message 1 ", message)
-
     try:
 
         print("request.content_type:", request.content_type)
@@ -42,8 +40,6 @@ def do_login():
 
         username = request.forms.get('username', None)
         password = request.forms.get('password', None)
-
-        print("message 2 ", message)
 
         if username is None:
             raise Exception("Campo username não informado")
@@ -65,13 +61,7 @@ def do_login():
         if usuario_autenticado == {}:
             message = "Login Falhou"
 
-        
-        print("message 3 ", message)
-
-
     finally:
-
-        print("message 4 ", message)
 
         return template("index") if message is None else f"<p>{message}</p>"
 
