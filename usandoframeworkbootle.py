@@ -31,12 +31,15 @@ def do_login():
 
         username = request.forms.get('username', None)
         password = request.forms.get('password', None)
-
-        if username is None:
-            raise Exception("Campo username não informado")
+       
+                 
+        #if username is None:
+        if username=="":   
+              raise Exception("Campo username não informado")
 
     except Exception as ex:
-        message = ex
+       message = ex
+      
 
     else:
 
@@ -56,7 +59,7 @@ def do_login():
 
     finally:
 
-        return template("index", usuario_autenticado) if message is None else template("erro", message)
+        return template("index", usuario_autenticado) if message is None else template("erro", message=message)
 
 
 run(host='localhost', port=8080, debug=True)
